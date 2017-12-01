@@ -28,5 +28,6 @@ The app should create an ID Card in real time and export the information to JSON
 - [main.css](styles/main.css) (main styles of the app)
 - [default_avatar.jpeg](images/default_avatar.jpeg) (just a placeholder for the preview Photo)
 - [drag_and_drop.gif](images/drag_and_drop.gif) (An animated image for the drop areas)
-##STEP 2: [Basic Functionality]()
+
+##STEP 2: [Basic Functionality](57faa60bda655122a4a70b4b07c529f5a21b308b)
 - [cardprocess.js](scripts/cardprocess.js) (JS script that executes the basic functionality)
