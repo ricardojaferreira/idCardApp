@@ -5,7 +5,7 @@ An app to create custom ID cards
 The app should create an ID Card in real time and export the information to JSON.
 
 ####Basic task List
-- [ ] Follow the design proposed by the image [case_study_2017_demo.png](casestudy/case_study_2017_demo.png).
+- [x] Follow the design proposed by the image [case_study_2017_demo.png](casestudy/case_study_2017_demo.png).
 - [ ] **Preview Area:**
     - [ ] Shows the changes in real time.
 - [ ] **Drop Images Area:**
