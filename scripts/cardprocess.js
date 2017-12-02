@@ -1,14 +1,27 @@
 'use strict';
 
+/*Saved Cards*/
+let savedCards = document.querySelector('#savedcards');
+if(savedCards){
+    savedCards.addEventListener('change',cardSelected);
+}
+
 /*Card Area*/
 let textFields = document.querySelectorAll('.card_area ul >li, .card_area p');
 let img = document.querySelector('img');
 let cardarea= document.querySelector('.card_area');
+let id_name = document.querySelector(".id_name");
+let id_job = document.querySelector(".id_job");
+let id_company = document.querySelector(".id_company");
+let id_email = document.querySelector(".id_email");
+let id_description = document.querySelector(".id_description");
 
 /*Drop Area*/
 let errorMessage = document.querySelector('form fieldset:nth-child(2) legend');
 let dropPhoto = document.querySelector('#drop_photo');
 let dropBackground = document.querySelector('#drop_background');
+let uploadPhoto = document.querySelector('#profilePhoto');
+let backgroundPhoto = document.querySelector('#backgroundImage');
 let photoPath = '';
 let backgroundPath = '';
 
@@ -38,6 +51,7 @@ textColor.addEventListener('change', function (){
 
 /*Output area*/
 let cardObj = {
+    cardname: 'cardname',
     name: 'name',
     job: 'job',
     company: 'company',
@@ -49,10 +63,49 @@ let cardObj = {
     textColor: 'textColor'
 };
 
-let outputJSON = document.querySelector('.JSONoutput')
+let outputJSON = document.querySelector('.JSONoutput');
 
+/* AJAX CALL */
+function cardSelected(event){
+    let card = event.target;
+    if(card.value == 'nocard'){
+        id_name.innerHTML = 'Your Name here';
+        id_job.innerHTML = 'Your Job Position';
+        id_company.innerHTML = 'Your Company Name here';
+        id_email.innerHTML = 'Your Email here';
+        id_description.innerHTML = 'You can add a description here.';
+        img.src= 'images/default_avatar.jpeg';
+        cardarea.style.backgroundImage = "none";
+        cardarea.style.backgroundSize = "auto";
+        for(let i=0; i<textFields.length; i++){
+            textFields[i].style.color="black";
+        }
+    }else{
+        let request = new XMLHttpRequest();
+        request.addEventListener("load", updateCard);
+        request.open("get", "action_updatecard.php?cardname=" + card.value,true);
+        request.send();
+    }
+}
+
+function updateCard(){
+    let cardDetails = JSON.parse(this.responseText);
+    id_name.innerHTML = cardDetails[0].name;
+    id_job.innerHTML = cardDetails[0].job;
+    id_company.innerHTML = cardDetails[0].company;
+    id_email.innerHTML = cardDetails[0].email;
+    id_description.innerHTML = cardDetails[0].description;
+    img.src= cardDetails[0].photoPath;
+    cardarea.style.backgroundImage = "url('"+cardDetails[0].backgroundPath+"')";
+    cardarea.style.backgroundSize = cardDetails[0].backgroundSize;
+    for(let i=0; i<textFields.length; i++){
+        textFields[i].style.color=cardDetails[0].textColor;
+    }
+}
+
+/*GENERATE JSON*/
 function generateJSON(){
-    let cardIdValue = document.querySelectorAll('input[type=text],input[type=email],select');
+    let cardIdValue = document.querySelectorAll('input[type=text],input[type=email],form select');
     for(let i=0; i<cardIdValue.length;i++){
         cardObj[cardIdValue[i].name]=cardIdValue[i].value;
     }
@@ -82,6 +135,7 @@ function drop_handler(ev, droparea) {
                         photoPath = dt.files[i].name;
                         errorMessage.innerHTML = 'Drop Images:';
                         errorMessage.style.color = '#000000';
+                        uploadPhoto.value=reader.result;
                     }, false);
                 }
                 if(droparea == 2){
@@ -91,6 +145,7 @@ function drop_handler(ev, droparea) {
                         backgroundPath = dt.files[i].name;
                         errorMessage.innerHTML = 'Drop Images:';
                         errorMessage.style.color = '#000000';
+                        backgroundPhoto.value=reader.result;
                     }, false);
                 }
 

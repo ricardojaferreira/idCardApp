@@ -9,6 +9,10 @@ body{
     color: #000000;
 }
 
+.error{
+    color: #dc143c;
+}
+
 form{
     display: grid;
     grid-template-columns: [left] 5fr [middle-left] 0.2fr [middle-right] 5fr [right];
@@ -55,6 +59,10 @@ form fieldset:nth-child(2){ /* Drop Images */
     align-items: center;
 }
 
+input[type=file]{
+    display: none;
+}
+
 form fieldset:nth-child(2) strong{
     z-index: -10;
 }
@@ -94,7 +102,7 @@ form fieldset:nth-child(3) input[type=submit]{
     border-radius: 5px;
     padding:0.6em 0.6em;
     cursor: pointer;
-    visibility: hidden;
+    /*visibility: hidden;*/
 }
 
 form fieldset:nth-child(3) button{
